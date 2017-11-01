@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :carts
   # get 'store/index'
   # ^this is replaces with below line
   # making store/index as root url of the website
