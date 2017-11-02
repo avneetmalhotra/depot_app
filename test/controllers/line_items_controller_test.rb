@@ -27,6 +27,17 @@ class LineItemsControllerTest < ActionDispatch::IntegrationTest
     assert_select 'td', "Rails, Angular, Postgres, and Bootstrap"
   end
 
+  test "should create line_item via ajax" do
+    assert_difference('LineItem.count') do
+      post line_items_url, params: { product_id: products(:ruby).id }, xhr: true
+    end
+
+    assert_response :success
+    assert_select_jquery :html, '#cart' do
+      assert_select 'tr#current_item td', /Rails, Angular, Postgres, and Bootstrap/
+    end
+  end
+
   test "should show line_item" do
     get line_item_url(@line_item)
     assert_response :success

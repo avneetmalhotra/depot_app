@@ -2,7 +2,7 @@ Rails.application.routes.draw do
   resources :line_items
   resources :carts
   # get 'store/index'
-  # ^this is replaces with below line
+  # ^this is replaced with below line
   # making store/index as root url of the website
   root 'store#index', as: 'store_index'
 
