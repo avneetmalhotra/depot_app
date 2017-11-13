@@ -1,5 +1,9 @@
 class User < ApplicationRecord
   validates :name, presence: true, uniqueness: true
+  validates :email, format:{
+    with: /\A([\w.]+)@([\w]+)\.([\w&&\S^_]{2,})\z/,
+    message: 'invalid'
+  }
   has_secure_password
 
   after_destroy :ensure_an_admin_remains
