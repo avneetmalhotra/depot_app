@@ -1,42 +1,47 @@
-class ImageUrlValidator < ActiveModel::EachValidator
-  def validate_each(record, attribute, value)
-    record.errors[attribute] << 'must be a URL for GIF, JPG or PNG image.' unless 
-      value =~ /\.(gif|jpg|png)\Z/i
-  end
-end
-
-class PriceGreaterThanDiscountPriceValidator < ActiveModel::EachValidator
-  def validate_each(record, attribute, value)
-    record.errors[attribute] << 'must be greater than discount price' unless
-      value > record.discount_price
-  end
-end
-
 class Product < ApplicationRecord
+  include ActiveModel::Validations
+
   has_many :line_items
   has_many :orders, through: :line_items
 
   before_destroy :ensure_not_referenced_by_any_line_item
-
-  #...
-  validates :title, :description, :image_url, :price, :permalink, :discount_price, presence: true
-  validates :title, :permalink, uniqueness: true
-
-  #using custom validator
-  validates :price, allow_blank: true, numericality: { greater_than_or_equal_to: 0.01 },
-    price_greater_than_discount_price: true, if: Proc.new{ |product| product.discount_price.present? }
   
-  # using validator method
-  validates :price, allow_blank: true, numericality: { greater_than_or_equal_to: 0.01 }
-  validate :price_must_be_greater_than_discount_price, if: Proc.new{ |product| product.discount_price.present? } 
+  before_validation :initialize_title_with_default_value, if: :title_present?
+  
+  before_save do
+    self.discount_price = price if discount_price.blank?
+  end
+
+  ## title's unique validation removed because default value is assigned
+  # validates :title, uniqueness: true
+  
+  with_options presence: true do |product|
+    product.validates :price, :permalink, :description, :image_url
+  end
 
   #..
+  ## using custom validator
+  validates :price, allow_blank: true, numericality: { greater_than_or_equal_to: 0.01 }
+  validates_with  PriceGreaterThanDiscountPriceValidator , if: :discount_price_present?
+  
+  ## using validator method
+  # validates :price, allow_blank: true, numericality: { greater_than_or_equal_to: 0.01 }
+  # validate :price_must_be_greater_than_discount_price, if: :discount_price_present? 
+
+  #..
+  ## title validations
+  validates :permalink, uniqueness: true
   validates :permalink, allow_blank: true, format: {
-    with: /[a-zA-Z0-9]*(\w+-){2,}[a-zA-Z0-9]+/,
-    message: 'invalid'
+    with: VALID_PERMALINK_REGEX
   }
 
-  validates :description, allow_blank: true, length: {in: 5..10}
+  ## description validations
+  validates :description, allow_blank: true, format: {
+    with: VALID_DESCRIPTION_REGEX,
+    message: 'can have 5 to 10 words only.'
+  }
+  
+  ## image_url validations
   validates :image_url, allow_blank: true, image_url: true
 
   private
@@ -52,5 +57,17 @@ class Product < ApplicationRecord
     def price_must_be_greater_than_discount_price
       errors.add(:price, 'must be greater than discount price') unless 
         price > discount_price
+    end
+
+    def initialize_title_with_default_value
+      self.title = 'abc'
+    end
+
+    def discount_price_present?
+      discount_price.present?
+    end
+
+    def title_present?
+      title.present?
     end
 end

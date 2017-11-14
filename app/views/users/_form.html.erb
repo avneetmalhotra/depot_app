@@ -34,6 +34,11 @@
     <%= form.password_field :password_confirmation, id: :user_password_confirmation %>
   </div>
 
+  <div class="field">
+    <%= form.label :about_me  %>
+    <%= form.text_area :about_me, id: :user_about_me %>
+  </div>
+
   <div class="actions">
     <%= form.submit %>
   </div>

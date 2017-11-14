@@ -5,7 +5,7 @@ class LineItem < ApplicationRecord
 
   validates :product_id, uniqueness: {
     scope: :cart_id,
-    message: 'one product can be added only once to a cart' }
+    message: 'already added to a cart' }
 
   def total_price
     product.price * quantity

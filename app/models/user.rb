@@ -1,12 +1,25 @@
 class User < ApplicationRecord
-  validates :name, presence: true, uniqueness: true
+  validates :name, presence: true, uniqueness: { case_sensitive: false }
+
   validates :email, format:{
-    with: /\A([\w.]+)@([\w]+)\.([\w&&\S^_]{2,})\z/,
-    message: 'invalid'
+    with: VALID_EMAIL_REGEX
   }
+
   has_secure_password
 
   after_destroy :ensure_an_admin_remains
+
+  after_save :send_welcome_mail
+
+  before_destroy do
+    errors.add(:base, 'Cannot delete admin user')
+    throw :abort if email == 'admin@depot.com'
+  end
+
+  before_update do
+    errors.add(:base, 'Cannot update admin user')
+    throw :abort if email == 'admin@depot.com'
+  end
 
   class Error < StandardError
   end
@@ -16,5 +29,9 @@ class User < ApplicationRecord
       if User.count.zero?
         raise Error.new "Can't delete last user"
       end
-    end     
+    end
+
+    def send_welcome_mail
+      UserMailer.welcome(id).deliver_now
+    end
 end
