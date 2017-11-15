@@ -23,4 +23,7 @@
 .byebug_history
 
 #Ignore schemna file
-/db/schema.rb
+db/schema.rb
+
+#Ignore secrets file
+config/secrets.yml

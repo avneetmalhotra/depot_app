@@ -45,9 +45,8 @@ class UsersController < ApplicationController
         format.html { redirect_to users_url, notice: "User #{@user.name} was successfully updated." }
         format.json { render :show, status: :ok, location: @user }
       else
-        format.html { redirect_to users_url, notice: "#{@user.errors[:base]}".chomp('"]').reverse.chomp('"[').reverse }
-        # format.html { render :edit }
-        # format.json { render json: @user.errors, status: :unprocessable_entity }
+        format.html { render :edit }
+        format.json { render json: @user.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -60,15 +59,7 @@ class UsersController < ApplicationController
         format.html { redirect_to users_url, notice: 'User was successfully destroyed.' }
         format.json { head :no_content }
       end
-    else
-      respond_to do |format|
-        format.html { redirect_to users_url, notice: "#{@user.errors[:base]}".chomp('"]').reverse.chomp('"[').reverse }
-      end
     end
-  end
-
-  rescue_from 'User::SuperAdminError' do |exception|
-    redirect_to users_url, notice: exception.message
   end
 
   rescue_from 'User::Error' do |exception|

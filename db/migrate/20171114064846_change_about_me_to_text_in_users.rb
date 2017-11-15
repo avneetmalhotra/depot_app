@@ -4,6 +4,6 @@ class ChangeAboutMeToTextInUsers < ActiveRecord::Migration[5.1]
   end
 
   def down
-    change_column :userS, :about_me, :string
+    change_column :users, :about_me, :string
   end
 end

@@ -9,17 +9,11 @@ class User < ApplicationRecord
 
   after_destroy :ensure_an_admin_remains
 
-  after_save :send_welcome_mail
+  after_create :send_welcome_mail
 
-  before_destroy do
-    errors.add(:base, 'Cannot delete admin user')
-    throw :abort if email == 'admin@depot.com'
-  end
+  before_destroy :cannot_alter_admin_user
 
-  before_update do
-    errors.add(:base, 'Cannot update admin user')
-    throw :abort if email == 'admin@depot.com'
-  end
+  before_update :cannot_alter_admin_user
 
   class Error < StandardError
   end
@@ -33,5 +27,9 @@ class User < ApplicationRecord
 
     def send_welcome_mail
       UserMailer.welcome(id).deliver_now
+    end
+
+    def cannot_alter_admin_user
+      raise Error.new "Can't alter admin user." if email_was == 'admin@depot.com'
     end
 end

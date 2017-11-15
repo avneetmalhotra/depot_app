@@ -1,4 +1,4 @@
-class PriceGreaterThanDiscountPriceValidator < ActiveModel::Validator
+class DiscountPriceValidator < ActiveModel::Validator
   def validate(record)
     record.errors[:price] << 'must be greater than discount price' unless
       record.price > record.discount_price

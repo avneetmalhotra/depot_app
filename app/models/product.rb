@@ -1,28 +1,24 @@
 class Product < ApplicationRecord
-  include ActiveModel::Validations
-
   has_many :line_items
   has_many :orders, through: :line_items
 
   before_destroy :ensure_not_referenced_by_any_line_item
   
-  before_validation :initialize_title_with_default_value, if: :title_present?
+  before_validation :initialize_title_with_default_value, unless: :title_present?
   
-  before_save do
-    self.discount_price = price if discount_price.blank?
-  end
+  before_save :set_discount_price_to_price, unless: :discount_price_present?
 
   ## title's unique validation removed because default value is assigned
   # validates :title, uniqueness: true
   
-  with_options presence: true do |product|
-    product.validates :price, :permalink, :description, :image_url
+  with_options presence: true do
+    validates :price, :permalink, :description, :image_url
   end
 
   #..
   ## using custom validator
   validates :price, allow_blank: true, numericality: { greater_than_or_equal_to: 0.01 }
-  validates_with  PriceGreaterThanDiscountPriceValidator , if: :discount_price_present?
+  validates_with DiscountPriceValidator , if: :discount_price_present?
   
   ## using validator method
   # validates :price, allow_blank: true, numericality: { greater_than_or_equal_to: 0.01 }
@@ -30,8 +26,7 @@ class Product < ApplicationRecord
 
   #..
   ## title validations
-  validates :permalink, uniqueness: true
-  validates :permalink, allow_blank: true, format: {
+  validates :permalink, uniqueness: true, allow_blank: true, format: {
     with: VALID_PERMALINK_REGEX
   }
 
@@ -60,7 +55,7 @@ class Product < ApplicationRecord
     end
 
     def initialize_title_with_default_value
-      self.title = 'abc'
+      self.title = PRODUCT_TITLE_DEFAULT_VALUE
     end
 
     def discount_price_present?
@@ -69,5 +64,9 @@ class Product < ApplicationRecord
 
     def title_present?
       title.present?
+    end
+
+    def set_discount_price_to_price
+      self.discount_price = price
     end
 end
