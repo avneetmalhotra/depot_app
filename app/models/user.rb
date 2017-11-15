@@ -9,11 +9,11 @@ class User < ApplicationRecord
 
   after_destroy :ensure_an_admin_remains
 
-  after_create :send_welcome_mail
+  after_create :send_welcome_mail, on: [:create]
 
-  before_destroy :cannot_alter_admin_user
+  before_destroy :ensure_not_super_admin
 
-  before_update :cannot_alter_admin_user
+  before_update :ensure_not_super_admin
 
   class Error < StandardError
   end
@@ -29,7 +29,7 @@ class User < ApplicationRecord
       UserMailer.welcome(id).deliver_now
     end
 
-    def cannot_alter_admin_user
+    def ensure_not_super_admin
       raise Error.new "Can't alter admin user." if email_was == 'admin@depot.com'
     end
 end
