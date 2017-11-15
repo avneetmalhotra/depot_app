@@ -9,7 +9,7 @@ class User < ApplicationRecord
 
   after_destroy :ensure_an_admin_remains
 
-  after_create :send_welcome_mail, on: [:create]
+  after_commit :send_welcome_mail, on: [:create]
 
   before_destroy :ensure_not_super_admin
 
