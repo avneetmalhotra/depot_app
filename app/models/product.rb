@@ -1,9 +1,8 @@
 class Product < ApplicationRecord
   has_many :line_items, dependent: :restrict_with_error
   has_many :orders, through: :line_items
+  has_many :carts, through: :line_items
 
-  # before_destroy :ensure_not_referenced_by_any_line_item
-  
   before_validation :initialize_title_with_default_value, unless: :title_present?
   
   before_save :set_discount_price_to_price, unless: :discount_price_present?
@@ -40,14 +39,6 @@ class Product < ApplicationRecord
   validates :image_url, allow_blank: true, image_url: true
 
   private
-  
-    # ensure that there are no line items referencing this product
-    # def ensure_not_referenced_by_any_line_item
-    #   unless line_items.empty?
-    #     errors.add(:base, 'Line Items present. Product cannot be deleted')
-    #     throw :abort
-    #   end
-    # end
 
     def price_must_be_greater_than_discount_price
       errors.add(:price, 'must be greater than discount price') unless 

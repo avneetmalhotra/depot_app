@@ -1,4 +1,6 @@
 class User < ApplicationRecord
+  has_many :orders
+
   validates :name, presence: true, uniqueness: { case_sensitive: false }
 
   validates :email, format:{
