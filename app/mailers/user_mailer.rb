@@ -5,9 +5,9 @@ class UserMailer < ApplicationMailer
   #
   #   en.user_mailer.welcome.subject
   #
-  def welcome(id)
+  def welcome(user_id)
     
-    @user = User.find_by(id: id)
+    @user = User.find_by(id: user_id)
     mail to: @user.email, subject: 'Welcome to Pragmmatic Store' if @user.present?
   end
 end
