@@ -1,8 +1,8 @@
 class Product < ApplicationRecord
-  has_many :line_items
+  has_many :line_items, before_remove: :ensure_not_referenced_by_any_line_item
   has_many :orders, through: :line_items
 
-  before_destroy :ensure_not_referenced_by_any_line_item
+  # before_destroy :ensure_not_referenced_by_any_line_item
   
   before_validation :initialize_title_with_default_value, unless: :title_present?
   
@@ -44,7 +44,7 @@ class Product < ApplicationRecord
     # ensure that there are no line items referencing this product
     def ensure_not_referenced_by_any_line_item
       unless line_items.empty?
-        errors.add(:base, 'Line Items present')
+        errors.add(:base, 'Line Items present. Product cannot be deleted')
         throw :abort
       end
     end
