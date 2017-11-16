@@ -31,6 +31,21 @@
     <%= form.text_field :price, id: :product_price %>
   </div>
 
+  <div class="field">
+    <%= form.check_box :enabled, id: :product_enabled %>
+    <%= form.label :enabled %>
+  </div>
+
+  <div>
+    <%= form.label :discount_price, id: :product_discount_price %>
+    <%= form.text_field :discount_price, placeholder: 'Discount Price' %>
+  </div>
+
+  <div>
+    <%= form.label :permalink, id: :product_permalink %>
+    <%= form.text_field :permalink, placeholder: 'Permanent Link' %>
+  </div>
+
   <div class="actions">
     <%= form.submit %>
   </div>
