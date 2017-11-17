@@ -30,12 +30,13 @@ class OrdersController < ApplicationController
   def create
     @order = Order.new(order_params)
     @order.add_line_items_from_cart(@cart)
+    @order.add_logged_in_user_id(current_user)
 
     respond_to do |format|
       if @order.save
         Cart.destroy(session[:cart_id])
         session[:cart_id] = nil
-        OrderMailer.received(@order).deliver_later
+        OrderMailer.received(@order).deliver_now
         # format.html { redirect_to @order, notice: 'Order was successfully created.' }
         format.html { redirect_to store_index_url, notice: I18n.t('.thanks') }
         format.json { render :show, status: :created, location: @order }

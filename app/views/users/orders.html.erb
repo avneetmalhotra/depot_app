@@ -1,0 +1,43 @@
+<h1>Orders</h1>
+
+<% if @orders.empty? %>
+  <p>No Order for logged in user</p>
+<% else %>
+
+  <% @orders.each do |order| %>
+    <div class="current-user-order">
+      <table>
+        <caption><%= order.name %></caption>
+        <tbody>
+          <tr>
+            <td>Address:</td>
+            <td><%= order.address %></td>
+          <tr/>
+          <tr>
+            <td>E-mail:</td>
+            <td><%= order.email %></td>
+          </tr>
+          <tr>
+            <td>Pay Type:</td>
+            <td><%= order.pay_type %></td>
+          </tr>
+          <tr>
+            <td>Created at:</td>
+            <td><%= order.created_at %></td>
+          </tr>
+          <tr>
+            <table class="line-items"><%= render(order.line_items) %></table>
+          </tr>
+        </tbody>
+      
+        <tfoot>
+          <tr>
+            <td>Total Price: </td>
+            <td><%= number_to_currency(order.total_price) %></td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+  <% end %>
+
+<% end %>
