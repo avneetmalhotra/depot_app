@@ -7,6 +7,9 @@ Rails.application.routes.draw do
     delete  'logout' => :destroy
   end
 
+  get 'users/orders' => 'users#orders'
+  get 'users/line_items' => 'users#line_items'
+
   resources :users
   resources :products do
     get :who_bought, on: :member
@@ -18,5 +21,10 @@ Rails.application.routes.draw do
     resources :carts
     root 'store#index', as: 'store_index'
   end
-  # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
+
+  # resources :users do
+  #   get :orders, on: :collection
+  # end
+
+  # get  'users/orders' => 'users#orders'
 end

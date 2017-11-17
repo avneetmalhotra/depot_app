@@ -1,3 +1,14 @@
-// Place all the styles related to the Users controller here.
+// Place all the styles related to the Orders controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+.current-user-order, .line-items{
+  border: 1px solid;
+  width: 400px;
+  border-collapse: collapse;
+  table, td{
+    border: 1px solid;
+    border-collapse: collapse;
+    width: 400px;
+  }
+}

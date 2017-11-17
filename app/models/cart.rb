@@ -1,5 +1,4 @@
 class Cart < ApplicationRecord
-  has_many :line_items, dependent: :destroy
   has_many :line_items, dependent: :destroy,  after_add: :increment_line_items_count, 
     after_remove: :decrement_line_items_count
   # has_many :products, through: :line_items
@@ -23,9 +22,11 @@ class Cart < ApplicationRecord
 
     def increment_line_items_count(line_item)
       self.line_items_count += 1
+      self.save
     end
 
     def decrement_line_items_count(line_item)
       self.line_items_count -= 1
+      self.save
     end
 end
