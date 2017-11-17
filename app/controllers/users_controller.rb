@@ -67,8 +67,7 @@ class UsersController < ApplicationController
   end
 
   def orders
-    @user = current_user
-    @orders = @user.orders
+    @orders = current_user.orders
   end
 
   def line_items

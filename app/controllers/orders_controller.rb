@@ -30,7 +30,7 @@ class OrdersController < ApplicationController
   def create
     @order = Order.new(order_params)
     @order.add_line_items_from_cart(@cart)
-    @order.add_logged_in_user_id(session[:user_id])
+    @order.add_logged_in_user_id(current_user)
 
     respond_to do |format|
       if @order.save
