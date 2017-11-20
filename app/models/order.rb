@@ -21,15 +21,9 @@ class Order < ApplicationRecord
     end
   end
 
-  def add_logged_in_user_id(user_id)
-    self.user_id = user_id.id unless user_id.nil?
-  end
-
   def total_price
-    price = 0
-    line_items.each do |line_item|
-      price += line_item.total_price
+    line_items.inject(0) do |sum, line_item|
+      sum + line_item.total_price
     end
-    price
   end
 end

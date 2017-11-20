@@ -1,5 +1,6 @@
 class User < ApplicationRecord
-  has_many :orders
+  has_many :orders, dependent: :destroy
+  has_many :line_items, through: :orders
 
   validates :name, presence: true, uniqueness: { case_sensitive: false }
 

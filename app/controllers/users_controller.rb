@@ -71,12 +71,7 @@ class UsersController < ApplicationController
   end
 
   def line_items
-    @line_items = []
-    current_user.orders.each do |order|
-      order.line_items.each do |line_item|
-        @line_items << line_item
-      end 
-    end
+    @line_items = current_user.line_items
   end
 
   private
