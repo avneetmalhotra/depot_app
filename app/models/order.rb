@@ -7,6 +7,9 @@ class Order < ApplicationRecord
     "Credit card"     => 1,
     "Purchase order"  => 2
   }
+
+  scope :by_date, ->(from_date = Date.today, to_date = Date.today) { where("DATE(created_at) >= ? AND DATE(created_at) <= ?", from_date, to_date) }
+
   # ...
   validates :name, :address, :email, presence: true
   validates :pay_type, inclusion: pay_types.keys
@@ -19,7 +22,7 @@ class Order < ApplicationRecord
   end
 
   def add_logged_in_user_id(user_id)
-    self.user_id = user_id unless user_id.nil?
+    self.user_id = user_id.id unless user_id.nil?
   end
 
   def total_price
