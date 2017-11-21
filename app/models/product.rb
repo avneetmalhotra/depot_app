@@ -2,6 +2,8 @@ class Product < ApplicationRecord
   has_many :line_items, dependent: :restrict_with_error
   has_many :orders, through: :line_items
   has_many :carts, through: :line_items
+  has_many :categorizations
+  has_many :categories, through: :categorizations
 
   scope :enabled, -> { where(enabled: true) }
 
