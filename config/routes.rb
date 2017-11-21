@@ -22,9 +22,4 @@ Rails.application.routes.draw do
     root 'store#index', as: 'store_index'
   end
 
-  # resources :users do
-  #   get :orders, on: :collection
-  # end
-
-  # get  'users/orders' => 'users#orders'
 end

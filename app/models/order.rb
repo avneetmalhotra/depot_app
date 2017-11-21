@@ -8,7 +8,7 @@ class Order < ApplicationRecord
     "Purchase order"  => 2
   }
 
-  scope :by_date, ->(from_date = Date.today, to_date = Date.today) { where("DATE(created_at) >= ? AND DATE(created_at) <= ?", from_date, to_date) }
+  scope :by_date, ->(from_date = Time.now.beginning_of_day, to_date = Time.now.end_of_day) { where(created_at: from_date..to_date) }
 
   # ...
   validates :name, :address, :email, presence: true
