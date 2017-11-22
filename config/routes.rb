@@ -10,6 +10,8 @@ Rails.application.routes.draw do
   get 'users/orders' => 'users#orders'
   get 'users/line_items' => 'users#line_items'
 
+  get 'categories/nested_list' => 'categories#nested_list'
+
   resources :users
   resources :products do
     get :who_bought, on: :member

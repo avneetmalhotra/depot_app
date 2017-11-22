@@ -1,0 +1,6 @@
+<h1>Root Categories and their sub-categories</h1>
+
+<% @root_categories.each do |root_category| %>
+    <h3><%= root_category.name %></h3>
+    <%= root_category.sub_categories.map { |sc| sc.name } %>
+<% end %>

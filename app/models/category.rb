@@ -1,6 +1,6 @@
 class Category < ApplicationRecord
   # getting all the sub_categories of the category
-  has_many :sub_categories, class_name: 'Category', foreign_key: 'root_category_id'
+  has_many :sub_categories, class_name: 'Category', foreign_key: 'root_category_id', dependent: :destroy
   belongs_to :root_category, class_name: 'Category', optional: true
   has_many :categorizations
   # getting all the products which belong to category
@@ -12,7 +12,7 @@ class Category < ApplicationRecord
   validates :name, presence: true
 
   # All root category names should be unique
-  validates_uniqueness_of :name, allow_blank: true, case_sensitive: false, message: "is already a Root Category's name", if: :is_root_category?
+  validates_uniqueness_of :name, allow_blank: true, case_sensitive: false, if: :is_root_category?
 
   # For each category, name of its sub_categories should be unique
   validates :name, uniqueness: {
@@ -23,30 +23,43 @@ class Category < ApplicationRecord
   }, if: :sub_category?
 
   # sub category cannot have any child category. means it is only one level of nesting.
-  validate :one_level_nesting, if: :is_root_category_id_valid?
+  validate :one_level_nesting, if: :sub_category?
 
+  # Should not be able to destroy category if any products are associated with it
+  before_destroy :ensure_no_associated_product
+
+  # Should not be able to destroy category if any products are associated with its sub_categories.
+  before_destroy :ensure_no_associated_product_with_sub_categories, if: :is_root_category?
 
   private
 
   def is_root_category?
-    debugger
-    root_category_id.nil?
+    root_category.nil?
   end
 
   def sub_category?
-    root_category_id.present?
+    root_category.present?
   end
 
   def one_level_nesting
     errors[:base] << 'Only one level nesting allowed' unless self.root_category.root_category.nil?
   end
 
-  def is_root_category_id_valid?
-    unless self.class.ids.include?(root_category_id)
-      errors.add(:root_category_id, 'is invalid') 
-      return false    
+  def ensure_no_associated_product
+    if products.present?
+      errors[:base] << 'Category cannot be deleted. It has associated products.'
+      throw :abort
+    end 
+  end
+
+  def ensure_no_associated_product_with_sub_categories
+    if sub_categories.present?
+      sub_categories.each do |sub_category|
+        if sub_category.products.any?
+          errors[:base] << "Category cannot be deleted. It's sub-categories have associated products"
+        end
+      end
     end
-    true
   end
 
 end

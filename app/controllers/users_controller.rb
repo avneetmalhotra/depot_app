@@ -71,15 +71,8 @@ class UsersController < ApplicationController
   end
 
   def line_items
-    if params[:page]
-      @page_number = params[:page].to_i
-    else
-      @page_number = 0
-    end
-
-    @no_more_line_items = true unless(more_line_items?)
-
-    @line_items = current_user.line_items.limit(5).offset(5*@page_number)
+    @no_of_pages = (current_user.line_items.size.to_f / 5).ceil
+    @line_items = current_user.line_items.limit(5).offset(5 * params[:page].to_i)
   end
 
   private
@@ -91,9 +84,5 @@ class UsersController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def user_params
       params.require(:user).permit(:name, :email, :password, :password_confirmation, :about_me)
-    end
-
-    def more_line_items?
-      current_user.line_items.size - (@page_number + 1) * 5 > 0      
     end
 end

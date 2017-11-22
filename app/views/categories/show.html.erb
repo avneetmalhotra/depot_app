@@ -11,8 +11,10 @@
 </p>
 
 <p>
-  <strong>Root category(id):</strong>
-  <%= @category.root_category_id %>
+  <strong>Root category:</strong>
+  <% if root_category = Category.find_by(id: @category.root_category_id)%>
+    <%= root_category.name %>
+  <% end %>
 </p>
 
 <%= link_to 'Edit', edit_category_path(@category) %> |
