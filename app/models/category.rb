@@ -1,14 +1,18 @@
 class Category < ApplicationRecord
-  # getting all the sub_categories of the category
-  has_many :sub_categories, class_name: 'Category', foreign_key: 'root_category_id', dependent: :destroy
-  belongs_to :root_category, class_name: 'Category', optional: true
+  ## ASSOCIATIONS
   has_many :categorizations
   # getting all the products which belong to category
-  has_many :products, through: :categorizations
+  has_many :products, through: :categorizations, dependent: :restrict_with_error, 
+    after_add: :increment_products_count, after_remove: :decrement_products_count
+  
+  # getting all the sub_categories of the category
+  has_many :sub_categories, class_name: 'Category', foreign_key: :root_category_id, dependent: :destroy
+  belongs_to :root_category, class_name: 'Category', optional: true
 
   # getting all the products which belong to subcategories of a given category
   has_many :sub_products, through: :sub_categories, source: :products
 
+  ##VALIDATIONS
   validates :name, presence: true
 
   # All root category names should be unique
@@ -20,46 +24,39 @@ class Category < ApplicationRecord
     scope: :root_category_id,
     case_sensitive: false,
     message: "cannot be used. It is already a sub-category name."
-  }, if: :sub_category?
+  }, if: :is_sub_category?
 
   # sub category cannot have any child category. means it is only one level of nesting.
-  validate :one_level_nesting, if: :sub_category?
+  validate :one_level_nesting, if: :is_sub_category?
 
-  # Should not be able to destroy category if any products are associated with it
-  before_destroy :ensure_no_associated_product
-
-  # Should not be able to destroy category if any products are associated with its sub_categories.
-  before_destroy :ensure_no_associated_product_with_sub_categories, if: :is_root_category?
-
-  private
+  public
 
   def is_root_category?
     root_category.nil?
   end
 
-  def sub_category?
+  def is_sub_category?
     root_category.present?
   end
 
+  private
+
   def one_level_nesting
-    errors[:base] << 'Only one level nesting allowed' unless self.root_category.root_category.nil?
+    errors[:base] << 'Only one level nesting allowed' unless root_category.is_root_category?
   end
 
-  def ensure_no_associated_product
-    if products.present?
-      errors[:base] << 'Category cannot be deleted. It has associated products.'
-      throw :abort
-    end 
-  end
-
-  def ensure_no_associated_product_with_sub_categories
-    if sub_categories.present?
-      sub_categories.each do |sub_category|
-        if sub_category.products.any?
-          errors[:base] << "Category cannot be deleted. It's sub-categories have associated products"
-        end
-      end
+  def increment_products_count(product)
+    if is_sub_category?
+      self.class.increment_counter(:products_count, root_category.id)
     end
+    self.class.increment_counter(:products_count, id)
+  end
+
+  def decrement_products_count(product)
+    if is_sub_category?
+      self.class.decrement_counter(:products_count, root_category.id)
+    end
+    self.class.decrement_counter(:products_count, id)
   end
 
 end

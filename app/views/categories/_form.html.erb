@@ -18,7 +18,7 @@
 
   <div class="field">
     <%= form.label :root_category_id %>
-    <%= form.select :root_category_id, Category.where(root_category_id: nil).collect { |c| [c.name, c.id] }, include_blank: true %>
+    <%= form.select :root_category_id, Category.all.collect { |c| [c.name, c.id] }, include_blank: true %>
   </div>
 
   <div class="actions">
