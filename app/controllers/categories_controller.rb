@@ -64,7 +64,7 @@ class CategoriesController < ApplicationController
   end
 
   def nested_list
-    @root_categories = Category.where(root_category_id: nil)
+    @root_categories = Category.includes(:sub_categories).where(root_category_id: nil)
   end
 
   private

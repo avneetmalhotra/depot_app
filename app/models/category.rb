@@ -16,8 +16,6 @@ class Category < ApplicationRecord
   validates :name, presence: true
 
   # All root category names should be unique
-  validates_uniqueness_of :name, allow_blank: true, case_sensitive: false, if: :is_root_category?
-
   # For each category, name of its sub_categories should be unique
   validates :name, uniqueness: {
     allow_blank: true,
