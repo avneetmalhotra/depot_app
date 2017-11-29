@@ -1,12 +1,15 @@
 class Product < ApplicationRecord
+  ## ASSOCIATIONS
   has_many :line_items, dependent: :restrict_with_error
   has_many :orders, through: :line_items
   has_many :carts, through: :line_items
   has_many :categorizations, dependent: :destroy
   has_many :categories, through: :categorizations
 
+  ## SCOPES
   scope :enabled, -> { where(enabled: true) }
 
+  ## VALIDATIONS
   before_validation :initialize_title_with_default_value, unless: :title_present?
   
   before_save :set_discount_price_to_price, unless: :discount_price_present?
@@ -15,7 +18,7 @@ class Product < ApplicationRecord
   # validates :title, uniqueness: true
   
   with_options presence: true do
-    validates :price, :permalink, :description, :image_url
+    validates :price, :permalink, :description, :image_url#, :category_id
   end
 
   #..
@@ -42,6 +45,8 @@ class Product < ApplicationRecord
   ## image_url validations
   validates :image_url, allow_blank: true, image_url: true
 
+  validates_with CategoryIdsValidator
+
   private
 
     def price_must_be_greater_than_discount_price
@@ -64,4 +69,5 @@ class Product < ApplicationRecord
     def set_discount_price_to_price
       self.discount_price = price
     end
+
 end
