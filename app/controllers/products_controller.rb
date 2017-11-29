@@ -5,6 +5,12 @@ class ProductsController < ApplicationController
   # GET /products.json
   def index
     @products = Product.all
+    # render json: @products
+    # render formats: [:json]
+    respond_to do |format|
+      format.html
+      format.json { render json: Product.joins(:categories).pluck(:title, 'categories.name') }
+    end
   end
 
   # GET /products/1
@@ -15,7 +21,6 @@ class ProductsController < ApplicationController
   # GET /products/new
   def new
     @product = Product.new
-    # @product.categorizations.build
   end
 
   # GET /products/1/edit
