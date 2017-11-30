@@ -5,8 +5,6 @@ class ProductsController < ApplicationController
   # GET /products.json
   def index
     @products = Product.all
-    # render json: @products
-    # render formats: [:json]
     respond_to do |format|
       format.html
       format.json { render json: Product.joins(:categories).pluck(:title, 'categories.name') }
@@ -21,6 +19,7 @@ class ProductsController < ApplicationController
   # GET /products/new
   def new
     @product = Product.new
+    3.times { @product.images.build }
   end
 
   # GET /products/1/edit
@@ -91,6 +90,6 @@ class ProductsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def product_params
-      params.require(:product).permit(:title, :description, :image_url, :price, :enabled, :discount_price, :permalink, category_ids: [])
+      params.require(:product).permit(:title, :description, :price, :enabled, :discount_price, :permalink, images_attributes: [:uploaded_image], category_ids: [])
     end
 end

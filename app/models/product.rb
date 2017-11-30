@@ -5,6 +5,8 @@ class Product < ApplicationRecord
   has_many :carts, through: :line_items
   has_many :categorizations, dependent: :destroy
   has_many :categories, through: :categorizations
+  has_many :images
+  accepts_nested_attributes_for :images
 
   ## SCOPES
   scope :enabled, -> { where(enabled: true) }
@@ -18,7 +20,7 @@ class Product < ApplicationRecord
   # validates :title, uniqueness: true
   
   with_options presence: true do
-    validates :price, :permalink, :description, :image_url#, :category_id
+    validates :price, :permalink, :description#, :image_url
   end
 
   #..
@@ -43,7 +45,7 @@ class Product < ApplicationRecord
   }
   
   ## image_url validations
-  validates :image_url, allow_blank: true, image_url: true
+  # validates :image_url, allow_blank: true, image_url: true
 
   validates_with CategoryIdsValidator
 
