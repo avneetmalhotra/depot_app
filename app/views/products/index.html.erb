@@ -9,12 +9,7 @@
           <%= image_tag(product.image_url, class: 'list_image') %>
       </td>
 
-      <td class="list_description">
-        <dl>
-          <dt><%= product.title %></dt>
-          <dd><%= truncate(strip_tags(product.description), length: 80) %></dd>
-        </dl>
-      </td>
+      <%= render 'list_description', product: product %>
 
       <td class="list_actions">
         <%= link_to 'Show', product %><br/>
