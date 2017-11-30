@@ -12,7 +12,18 @@
 
 <p>
   <strong>Image url:</strong>
-  <%= img = @product.images.first %>
+  <%= @product.image_url unless @product.image_url %>
+</p>
+
+<p>
+  <strong>Product images</strong>
+  <div class='product-images-slideshow'>
+    <% unless @product.images.empty? %>
+      <% @product.images.each do |product_image| %>
+        <%= image_tag("/uploads/#{product_image.name}", size: '150x150', class: 'image') %>
+      <% end %>
+    <% end %>
+  </div>
 </p>
 
 <p>

@@ -1,5 +1,9 @@
 <td>
-    <% #image_tag(product.image_url, class: 'list_image') %>
+  <%= image_tag(product.image_url, class: 'list_image') if product.image_url%>
+</td>
+
+<td>
+  <%= image_tag("/uploads/#{product.images.first.name}", class: 'list_image', alt: "#{@first_image_name}") if product.images.first %>
 </td>
 
 <td class="list_description">

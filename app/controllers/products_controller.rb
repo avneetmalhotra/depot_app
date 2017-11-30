@@ -19,7 +19,7 @@ class ProductsController < ApplicationController
   # GET /products/new
   def new
     @product = Product.new
-    3.times { @product.images.build }
+    associate_images(3)
   end
 
   # GET /products/1/edit
@@ -36,6 +36,7 @@ class ProductsController < ApplicationController
         format.html { redirect_to @product, notice: 'Product was successfully created.' }
         format.json { render :show, status: :created, location: @product }
       else
+        associate_images(3)
         format.html { render :new }
         format.json { render json: @product.errors, status: :unprocessable_entity }
       end
@@ -90,6 +91,10 @@ class ProductsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def product_params
-      params.require(:product).permit(:title, :description, :price, :enabled, :discount_price, :permalink, images_attributes: [:uploaded_image], category_ids: [])
+      params.require(:product).permit(:title, :description, :image_url, :price, :enabled, :discount_price, :permalink, images_attributes: [:uploaded_image], category_ids: [])
+    end
+
+    def associate_images(no_of_images)
+     no_of_images.times { @product.images.build }
     end
 end

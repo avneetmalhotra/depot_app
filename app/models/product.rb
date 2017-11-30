@@ -5,7 +5,7 @@ class Product < ApplicationRecord
   has_many :carts, through: :line_items
   has_many :categorizations, dependent: :destroy
   has_many :categories, through: :categorizations
-  has_many :images
+  has_many :images, dependent: :destroy
   accepts_nested_attributes_for :images
 
   ## SCOPES
@@ -45,7 +45,7 @@ class Product < ApplicationRecord
   }
   
   ## image_url validations
-  # validates :image_url, allow_blank: true, image_url: true
+  validates :image_url, allow_blank: true, image_url: true
 
   validates_with CategoryIdsValidator
 

@@ -3,7 +3,14 @@ class Image < ApplicationRecord
 
   def uploaded_image=(image_details)
     self.name = image_details.original_filename
-    self.content_type = image_details.content_type
-    self.data = image_details.read
+    save_image(image_details)
+  end
+
+  private
+
+  def save_image(image_io)
+    File.open(Rails.root.join('public', 'uploads', name), 'wb') do |file|
+      file.write(image_io.read)
+    end
   end
 end
