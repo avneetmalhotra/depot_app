@@ -28,4 +28,5 @@ Rails.application.routes.draw do
     resources :categories
     root 'store#index', as: 'store_index'
   end
+
 end
