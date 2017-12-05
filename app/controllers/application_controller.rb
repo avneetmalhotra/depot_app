@@ -6,6 +6,8 @@ class ApplicationController < ActionController::Base
   helper_method :current_user
     # ...
 
+  around_action :add_responded_in_header_to_response_headers
+
   protected
 
     def current_user
@@ -35,5 +37,14 @@ class ApplicationController < ActionController::Base
           logger.error flash.now[:notice]
         end
       end
+    end
+
+  private
+
+    def add_responded_in_header_to_response_headers
+      start = Time.now
+      yield
+      duration = start - Time.now
+      response.headers['x-responded-in'] = duration
     end
 end
