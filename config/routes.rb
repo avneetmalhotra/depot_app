@@ -15,8 +15,9 @@ Rails.application.routes.draw do
   match 'my-items', to: 'users#line_items', via: [:get]
 
   resources :users
-  resources :products do
-    get :who_bought, on: :member
+
+  resources :products, path: 'books' do
+    get 'who_bought', on: :member
   end
 
   get 'categories/nested_list' => 'categories#nested_list'
