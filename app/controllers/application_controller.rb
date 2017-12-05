@@ -51,7 +51,7 @@ class ApplicationController < ActionController::Base
 
     def check_for_inactivity
       if current_user
-        if Time.now - session[:last_activity_time].to_time > 5.minutes
+        if Time.now - session[:last_activity_time].to_time > 100.minutes
           session[:user_id] = nil
           session[:last_activity_time] = nil
           redirect_to store_index_url, notice: "Logged out"

@@ -1,5 +1,4 @@
-class Admin::ReportsController < ApplicationController
-  before_action :ensure_admin
+class Admin::ReportsController < AdminController  
 
   def index
     if params[:from_date]
@@ -19,11 +18,4 @@ class Admin::ReportsController < ApplicationController
     Date.new(date[:year].to_i, date[:month].to_i, date[:day].to_i)
   end
 
-  def ensure_admin
-    unless current_user.role == 'admin'
-      respond_to do |format| 
-        format.html { redirect_to store_index_url, notice: "You don't have privilege to access this section" }
-      end
-    end
-  end
 end

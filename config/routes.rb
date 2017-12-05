@@ -1,7 +1,8 @@
 Rails.application.routes.draw do
   get 'admin' => 'admin#index'
+  
   namespace :admin do
-    resources :reports, only: [:index]
+    resources :reports, :categories, only: [:index]
   end
 
   controller :sessions do
