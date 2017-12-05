@@ -11,15 +11,15 @@ Rails.application.routes.draw do
     delete  'logout' => :destroy
   end
 
-  get 'users/orders' => 'users#orders'
-  get 'users/line_items' => 'users#line_items'
-
-  get 'categories/nested_list' => 'categories#nested_list'
+  match 'my-orders', to: 'users#orders', via: [:get]
+  match 'my-items', to: 'users#line_items', via: [:get]
 
   resources :users
   resources :products do
     get :who_bought, on: :member
   end
+
+  get 'categories/nested_list' => 'categories#nested_list'
 
   scope '(:locale)' do
     resources :orders
