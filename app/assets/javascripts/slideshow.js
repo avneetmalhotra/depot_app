@@ -11,7 +11,6 @@ Slideshow.prototype.init = function(){
 
 Slideshow.prototype.hideAllSlides = function(){
   this.$allSlides.hide();
-  console.log(this.$allSlides);
 };
 
 Slideshow.prototype.runSlideshow = function(){
