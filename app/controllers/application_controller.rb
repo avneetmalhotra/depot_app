@@ -7,6 +7,7 @@ class ApplicationController < ActionController::Base
     # ...
 
   around_action :add_responded_in_header_to_response_headers
+  before_action :check_for_inactivity
 
   protected
 
@@ -46,5 +47,17 @@ class ApplicationController < ActionController::Base
       yield
       duration = start - Time.now
       response.headers['x-responded-in'] = duration
+    end
+
+    def check_for_inactivity
+      if current_user
+        if Time.now - session[:last_activity_time].to_time > 5.minutes
+          session[:user_id] = nil
+          session[:last_activity_time] = nil
+          redirect_to store_index_url, notice: "Logged out"
+        else
+          session[:last_activity_time] = Time.now
+        end
+      end
     end
 end
