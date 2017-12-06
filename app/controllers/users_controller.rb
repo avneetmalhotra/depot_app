@@ -66,6 +66,19 @@ class UsersController < ApplicationController
     redirect_to users_url, notice: exception.message
   end
 
+  def orders
+    @orders = current_user.orders
+  end
+
+  def line_items
+    @line_items = []
+    current_user.orders.each do |order|
+      order.line_items.each do |line_item|
+        @line_items << line_item
+      end 
+    end
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_user
