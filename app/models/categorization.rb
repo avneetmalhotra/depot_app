@@ -2,8 +2,8 @@ class Categorization < ApplicationRecord
   belongs_to :product
   belongs_to :category
 
-  after_save :increment_products_count
-  before_destroy :decrement_products_count
+  after_commit :increment_products_count, on: [:create, :update]
+  after_commit :decrement_products_count, on: [:destroy]
 
   public
 
