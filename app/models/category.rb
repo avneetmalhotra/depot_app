@@ -28,6 +28,10 @@ class Category < ApplicationRecord
 
   public
 
+    def is_root_category?
+      root_category.nil?
+    end
+
     def is_sub_category?
       root_category.present?
     end
