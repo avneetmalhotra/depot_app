@@ -62,7 +62,7 @@ class ProductsController < ApplicationController
         format.html { redirect_to products_url, notice: 'Product was successfully destroyed.' }
         format.json { head :no_content }
       else
-        format.html { redirect_to products_url, notice: @product.errors.full_messages }
+        format.html { redirect_to products_url, notice: "#{@product.errors[:base].join}" }
       end
     end
   end

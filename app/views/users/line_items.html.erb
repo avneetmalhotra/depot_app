@@ -4,6 +4,4 @@
   <p>No Line Item for logged in user</p>
 <% else %>
   <table class="line-items"><%= render(@line_items) %></table>
-  <%= link_to_unless @no_more_line_items, 'Next 5', users_line_items_path(page: @page_number + 1) %>
-  <%= link_to_if @page_number > 0, 'Previous 5', users_line_items_path(page: @page_number - 1) %> 
 <% end %>
