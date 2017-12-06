@@ -20,7 +20,7 @@ class Product < ApplicationRecord
   # validates :title, uniqueness: true
   
   with_options presence: true do
-    validates :price, :permalink, :description#, :image_url
+    validates :price, :permalink, :description, :categories
   end
 
   #..
@@ -46,8 +46,6 @@ class Product < ApplicationRecord
   
   ## image_url validations
   validates :image_url, allow_blank: true, image_url: true
-
-  validates_with CategoryIdsValidator
 
   private
 

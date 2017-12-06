@@ -5,6 +5,8 @@ class CreateAddresses < ActiveRecord::Migration[5.1]
       t.string :state
       t.string :country
       t.integer :pincode
+
+      t.timestamp
     end
   end
 end

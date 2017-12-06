@@ -3,6 +3,7 @@ class Image < ApplicationRecord
 
   def uploaded_image=(image_details)
     self.name = image_details.original_filename
+    self.file_path = "/uploads/#{name}"
     save_image(image_details)
   end
 
