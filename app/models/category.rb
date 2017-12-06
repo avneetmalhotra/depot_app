@@ -2,8 +2,7 @@ class Category < ApplicationRecord
   ## ASSOCIATIONS
   has_many :categorizations
   # getting all the products which belong to category
-  has_many :products, through: :categorizations, dependent: :restrict_with_error, 
-    after_add: :increment_products_count, after_remove: :decrement_products_count
+  has_many :products, through: :categorizations, dependent: :restrict_with_error
   
   # getting all the sub_categories of the category
   has_many :sub_categories, class_name: 'Category', foreign_key: :root_category_id, dependent: :destroy
@@ -29,32 +28,14 @@ class Category < ApplicationRecord
 
   public
 
-  def is_root_category?
-    root_category.nil?
-  end
-
-  def is_sub_category?
-    root_category.present?
-  end
-
-  private
-
-  def one_level_nesting
-    errors[:base] << 'Only one level nesting allowed' unless root_category.is_root_category?
-  end
-
-  def increment_products_count(product)
-    if is_sub_category?
-      self.class.increment_counter(:products_count, root_category.id)
+    def is_sub_category?
+      root_category.present?
     end
-    self.class.increment_counter(:products_count, id)
-  end
 
-  def decrement_products_count(product)
-    if is_sub_category?
-      self.class.decrement_counter(:products_count, root_category.id)
+    private
+
+    def one_level_nesting
+      errors[:base] << 'Only one level nesting allowed' unless root_category.is_root_category?
     end
-    self.class.decrement_counter(:products_count, id)
-  end
 
 end
