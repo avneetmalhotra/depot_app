@@ -7,9 +7,6 @@ class Order < ApplicationRecord
     "Credit card"     => 1,
     "Purchase order"  => 2
   }
-
-  scope :by_date, ->(from_date = Time.now.beginning_of_day, to_date = Time.now.end_of_day) { where(created_at: from_date..to_date) }
-
   # ...
   validates :name, :address, :email, presence: true
   validates :pay_type, inclusion: pay_types.keys
@@ -21,9 +18,15 @@ class Order < ApplicationRecord
     end
   end
 
+  def add_logged_in_user_id(user_id)
+    self.user_id = user_id unless user_id.nil?
+  end
+
   def total_price
-    line_items.inject(0) do |sum, line_item|
-      sum + line_item.total_price
+    price = 0
+    line_items.each do |line_item|
+      price += line_item.total_price
     end
+    price
   end
 end

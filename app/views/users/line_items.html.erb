@@ -5,7 +5,6 @@
 <% else %>
 
   <table class="line-items"><%= render(@line_items) %></table>
-
   <% @no_of_pages.times do |count|%>
     <%= link_to_unless params[:page].to_i == count, count + 1, users_line_items_path(page: count) %>
   <% end %>
