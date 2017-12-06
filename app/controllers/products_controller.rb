@@ -5,6 +5,13 @@ class ProductsController < ApplicationController
   # GET /products.json
   def index
     @products = Product.includes(:images)
+    if params[:category_id]
+      category = Category.find_by(id: params[:category_id].to_i)
+        @products = category.products
+    else
+      @products = Product.all
+    end
+    
     respond_to do |format|
       format.html
       format.json { render json: index_json_content }
