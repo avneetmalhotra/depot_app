@@ -29,16 +29,10 @@ Rails.application.routes.draw do
       resources :line_items
       resources :carts
       resources :categories
-      # match '/categories/:id/books', to: redirect { |path_params, req|
-      #   if Category.find_by(id: path_params[:id]).products.empty?
-      #     '/'
-      #   else
-      #     "categories/#{path_params[:id]}/books"
-      #   end
-      # }, via: [:get]
-      # resources :categories do
-      #   resources :products, path: 'books', only: [:index]
-      # end
+      get '/categories/:id/books', to: 'store#index', constraints: { id: /\d/ }
+      resources :categories do
+        resources :products, path: 'books', only: [:index]
+      end
     end
   end
     
