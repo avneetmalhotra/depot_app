@@ -2,6 +2,8 @@ class Product < ApplicationRecord
   has_many :line_items, dependent: :restrict_with_error
   has_many :orders, through: :line_items
   has_many :carts, through: :line_items
+  has_many :categorizations, dependent: :destroy
+  has_many :categories, through: :categorizations
 
   before_validation :initialize_title_with_default_value, unless: :title_present?
   

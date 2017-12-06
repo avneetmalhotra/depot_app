@@ -10,6 +10,8 @@ Rails.application.routes.draw do
   get 'users/orders' => 'users#orders'
   get 'users/line_items' => 'users#line_items'
 
+  get 'categories/nested_list' => 'categories#nested_list'
+
   resources :users
   resources :products do
     get :who_bought, on: :member
@@ -19,12 +21,7 @@ Rails.application.routes.draw do
     resources :orders
     resources :line_items
     resources :carts
+    resources :categories
     root 'store#index', as: 'store_index'
   end
-
-  # resources :users do
-  #   get :orders, on: :collection
-  # end
-
-  # get  'users/orders' => 'users#orders'
 end

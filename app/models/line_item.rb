@@ -5,13 +5,13 @@ class LineItem < ApplicationRecord
 
   validates :product_id, uniqueness: {
     scope: :cart_id,
-    message: 'already added to a cart' }, if: :cart_present?
+    message: 'already added to a cart' }, unless: :cart_id_nil?
 
   def total_price
     product.price * quantity
   end
 
-  def cart_present?
-    cart.present?
+  def cart_id_nil?
+    cart_id.nil?
   end
 end
