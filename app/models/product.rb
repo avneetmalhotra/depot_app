@@ -5,8 +5,6 @@ class Product < ApplicationRecord
   has_many :categorizations, dependent: :destroy
   has_many :categories, through: :categorizations
 
-  scope :enabled, -> { where(enabled: true) }
-
   before_validation :initialize_title_with_default_value, unless: :title_present?
   
   before_save :set_discount_price_to_price, unless: :discount_price_present?
