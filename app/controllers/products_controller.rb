@@ -7,7 +7,7 @@ class ProductsController < ApplicationController
     @products = Product.all
     respond_to do |format|
       format.html
-      format.json { render json: Product.joins(:categories).pluck(:title, 'categories.name') }
+      format.json { render json: index_json_content }
     end
   end
 
@@ -96,5 +96,11 @@ class ProductsController < ApplicationController
 
     def associate_images(no_of_images)
      no_of_images.times { @product.images.build }
+    end
+
+    def index_json_content
+      content_hash = Hash.new { |hash, key| hash[key] = [] }
+      Product.joins(:categories).pluck(:title, 'categories.name').each { |details| content[details[0]].push details[1]}
+      content_hash
     end
 end
