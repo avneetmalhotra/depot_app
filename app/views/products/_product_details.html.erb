@@ -3,7 +3,7 @@
 </td>
 
 <td>
-  <%= image_tag(product.images.first.file_path, class: 'list_image', alt: "#{@first_image_name}") if product.images.first %>
+  <%= image_tag(product.images.first.file_path, class: 'list_image', alt: "#{@first_image_name}") if product.images.present? %>
 </td>
 
 <td class="list_description">

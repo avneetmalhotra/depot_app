@@ -4,7 +4,7 @@ class ProductsController < ApplicationController
   # GET /products
   # GET /products.json
   def index
-    @products = Product.all
+    @products = Product.includes(:images)
     respond_to do |format|
       format.html
       format.json { render json: index_json_content }
