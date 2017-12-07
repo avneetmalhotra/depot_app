@@ -54,6 +54,7 @@ class ApplicationController < ActionController::Base
         if Time.now - session[:last_activity_time].to_time > 100.minutes
           session[:user_id] = nil
           session[:last_activity_time] = nil
+          # session.clear
           redirect_to store_index_url, notice: "Logged out"
         else
           session[:last_activity_time] = Time.now

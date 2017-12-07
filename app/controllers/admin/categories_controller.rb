@@ -1,4 +1,4 @@
-class Admin::CategoriesController < AdminController
+class Admin::CategoriesController < Admin::BaseController
 
   def index
     @categories = Category.includes(:root_category)

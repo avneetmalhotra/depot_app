@@ -9,8 +9,12 @@ class SessionsController < ApplicationController
     user = User.find_by(name: params[:name])
     if user.try(:authenticate, params[:password])
       session[:user_id] = user.id
-      session[:last_activity_time] = Time.now
-      redirect_to admin_url
+      session[:last_activity_time] = Time.current
+      if user.role == 'admin'
+        redirect_to admin_reports_url
+      else
+        redirect_to admin_url
+      end
     else
       redirect_to login_url, alert: "Invalid user/password combination"
     end
@@ -19,6 +23,7 @@ class SessionsController < ApplicationController
   def destroy
     session[:user_id] = nil
     session[:last_activity_time] = nil
+    # session.clear
     redirect_to store_index_url, notice: "Logged out"
   end
 end
