@@ -1,6 +1,9 @@
 class User < ApplicationRecord
-  has_many :orders
-
+  has_many :orders, dependent: :destroy
+  has_many :line_items, through: :orders
+  has_one :address, dependent: :destroy
+  accepts_nested_attributes_for :address, reject_if: :any_address_field_empty, allow_destroy: true
+  
   validates :name, presence: true, uniqueness: { case_sensitive: false }
 
   validates :email, format:{
@@ -33,5 +36,10 @@ class User < ApplicationRecord
 
     def ensure_not_super_admin
       raise Error.new "Can't alter admin user." if email_was == 'admin@depot.com'
+    end
+
+    def any_address_field_empty(attributes)
+      attributes.each { |key, value| return true if value.empty? && key != '_destroy'}
+      false
     end
 end

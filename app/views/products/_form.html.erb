@@ -17,6 +17,11 @@
   </div>
 
   <div class="field">
+    <%= form.label :category_ids, 'Select Category' %>
+    <%= form.collection_select(:category_ids, Category.all, :id, :name, {prompt: 'Select One/Multiple'}, {multiple: true}) %>
+  </div>
+
+  <div class="field">
     <%= form.label :description %>
     <%= form.text_area :description, id: :product_description, rows: 10, cols: 60 %>
   </div>
@@ -24,6 +29,12 @@
   <div class="field">
     <%= form.label :image_url %>
     <%= form.text_field :image_url, id: :product_image_url %>
+  </div>
+
+  <div class="field">
+    <%= form.fields_for :images do |image_form| %>
+      <%= image_form.file_field :uploaded_image%>
+    <% end %>
   </div>
 
   <div class="field">

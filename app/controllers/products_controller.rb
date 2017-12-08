@@ -4,7 +4,11 @@ class ProductsController < ApplicationController
   # GET /products
   # GET /products.json
   def index
-    @products = Product.all
+    @products = Product.includes(:images)
+    respond_to do |format|
+      format.html
+      format.json { render json: index_json_content }
+    end
   end
 
   # GET /products/1
@@ -15,6 +19,7 @@ class ProductsController < ApplicationController
   # GET /products/new
   def new
     @product = Product.new
+    associate_images(3)
   end
 
   # GET /products/1/edit
@@ -31,6 +36,7 @@ class ProductsController < ApplicationController
         format.html { redirect_to @product, notice: 'Product was successfully created.' }
         format.json { render :show, status: :created, location: @product }
       else
+        associate_images(3)
         format.html { render :new }
         format.json { render json: @product.errors, status: :unprocessable_entity }
       end
@@ -85,6 +91,16 @@ class ProductsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def product_params
-      params.require(:product).permit(:title, :description, :image_url, :price, :enabled, :discount_price, :permalink)
+      params.require(:product).permit(:title, :description, :image_url, :price, :enabled, :discount_price, :permalink, images_attributes: [:uploaded_image], category_ids: [])
+    end
+
+    def associate_images(no_of_images)
+     no_of_images.times { @product.images.build }
+    end
+
+    def index_json_content
+      content_hash = Hash.new { |hash, key| hash[key] = [] }
+      Product.joins(:categories).pluck(:title, 'categories.name').each { |details| content[details[0]].push details[1]}
+      content_hash
     end
 end
