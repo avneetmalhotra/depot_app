@@ -24,7 +24,7 @@
     
     <div id="columns">
       <div id="side">
-        <!-- <span class="load-time"><%= Time.now.strftime("%I:%M %p") %></span> -->
+        <!-- <span class="load-time"><%= Time.current.strftime("%I:%M %p") %></span> -->
         <div id="cart">
           <% if @cart %>
             <%= hidden_div_if(@cart.line_items.empty?, id: 'cart') do %>
@@ -59,7 +59,9 @@
     </div>
 
     <footer>
-      <p>Hit Counter:<%= view_counter %> </p>
+      <% if current_user %>
+        <p>Hit Counter:<%= session[:url_view_counter["#{request.url}"]] %> </p>
+      <% end %>
       <p>Your IP address: <%= request.remote_ip %></p>
     </footer>
   </body>

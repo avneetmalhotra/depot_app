@@ -8,6 +8,7 @@ class ApplicationController < ActionController::Base
 
   around_action :add_responded_in_header_to_response_headers
   before_action :check_for_inactivity
+  before_action :view_counter
 
   protected
 
@@ -43,22 +44,28 @@ class ApplicationController < ActionController::Base
   private
 
     def add_responded_in_header_to_response_headers
-      start = Time.now
+      start = Time.current
       yield
-      duration = start - Time.now
+      duration = start - Time.current
       response.headers['x-responded-in'] = duration
     end
 
     def check_for_inactivity
       if current_user
-        if Time.now - session[:last_activity_time].to_time > 100.minutes
-          session[:user_id] = nil
-          session[:last_activity_time] = nil
-          # session.clear
+        if Time.current - session[:last_activity_time].to_time > 100.minutes
+          session.clear
           redirect_to store_index_url, notice: "Logged out"
         else
-          session[:last_activity_time] = Time.now
+          session[:last_activity_time] = Time.current
         end
       end
     end
+
+    def view_counter
+      if current_user
+        session[:url_view_counter["#{request.url}"]] ||= 0
+        session[:url_view_counter["#{request.url}"]] += 1
+      end
+    end
+
 end

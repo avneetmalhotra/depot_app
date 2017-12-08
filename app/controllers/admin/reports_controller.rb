@@ -17,7 +17,7 @@ class Admin::ReportsController < Admin::BaseController
       @to_date = get_selected_date(params[:to_date])
     else
       @from_date = 5.days.ago.beginning_of_day
-      @to_date = Time.now
+      @to_date = Time.current
     end
   end
 end
