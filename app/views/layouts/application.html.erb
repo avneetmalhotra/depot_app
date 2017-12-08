@@ -24,7 +24,7 @@
     
     <div id="columns">
       <div id="side">
-        <!-- <span class="load-time"><%= Time.now.strftime("%I:%M %p") %></span> -->
+        <!-- <span class="load-time"><%= Time.current.strftime("%I:%M %p") %></span> -->
         <div id="cart">
           <% if @cart %>
             <%= hidden_div_if(@cart.line_items.empty?, id: 'cart') do %>
@@ -45,6 +45,9 @@
             <li><%= link_to 'Orders', orders_path     %></li>
             <li><%= link_to 'Products', products_path %></li>
             <li><%= link_to 'Users', users_path       %></li>
+            <li><%= link_to "User's Line Items", users_line_items_path %></li>
+            <li><%= link_to "User's Orders", users_orders_path %></li>
+            <li><%= link_to 'Categories', categories_path %></li>
           </ul>
           <%= button_to 'Logout', logout_path, method: :delete %>
         <% end %>
@@ -54,5 +57,12 @@
         <%= yield %>
       </div>
     </div>
+
+    <footer>
+      <% if current_user %>
+        <p>Hit Counter:<%= session[:url_view_counter][request.path] %> </p>
+      <% end %>
+      <p>Your IP address: <%= request.remote_ip %></p>
+    </footer>
   </body>
 </html>

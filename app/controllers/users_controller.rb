@@ -15,6 +15,7 @@ class UsersController < ApplicationController
   # GET /users/new
   def new
     @user = User.new
+    @user.build_address
   end
 
   # GET /users/1/edit
@@ -31,6 +32,7 @@ class UsersController < ApplicationController
         format.html { redirect_to users_url, notice: "User #{@user.name} was successfully created." }
         format.json { render :show, status: :created, location: @user }
       else
+        @user.build_address
         format.html { render :new }
         format.json { render json: @user.errors, status: :unprocessable_entity }
       end
@@ -68,15 +70,13 @@ class UsersController < ApplicationController
 
   def orders
     @orders = current_user.orders
+    render layout: 'myorders'
   end
 
   def line_items
-    @line_items = []
-    current_user.orders.each do |order|
-      order.line_items.each do |line_item|
-        @line_items << line_item
-      end 
-    end
+    @no_of_pages = (current_user.line_items.size.to_f / USER_NUMBER_OF_LINE_ITEMS_PER_PAGE).ceil
+    @line_items = current_user.line_items.includes(:product).limit(USER_NUMBER_OF_LINE_ITEMS_PER_PAGE).offset(USER_NUMBER_OF_LINE_ITEMS_PER_PAGE * params[:page].to_i)
+    render layout: 'myorders'
   end
 
   private
@@ -87,6 +87,6 @@ class UsersController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def user_params
-      params.require(:user).permit(:name, :email, :password, :password_confirmation, :about_me)
+      params.require(:user).permit(:name, :email, :password, :password_confirmation, :about_me, address_attributes: [:id, :city, :state, :country, :pincode, :_destroy])
     end
 end

@@ -3,3 +3,4 @@ VALID_EMAIL_REGEX = /\A([\w.]+)@([\w]+)\.([\w&&\S^_]{2,})\z/
 VALID_DESCRIPTION_REGEX = /\A(\S+\s+){4,9}\S+\z/
 VALID_IMAGE_URL_VALIDATOR = /\.(gif|jpg|png)\Z/i
 PRODUCT_TITLE_DEFAULT_VALUE = 'abc'
+USER_NUMBER_OF_LINE_ITEMS_PER_PAGE = 5
