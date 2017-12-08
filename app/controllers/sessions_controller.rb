@@ -1,7 +1,7 @@
 class SessionsController < ApplicationController
   skip_before_action :authorize
   skip_before_action :check_for_inactivity
-  skip_before_action :view_counter
+  skip_before_action :increment_view_counter
 
   def new
   end
@@ -11,7 +11,8 @@ class SessionsController < ApplicationController
     if user.try(:authenticate, params[:password])
       session[:user_id] = user.id
       session[:last_activity_time] = Time.current
-      session.merge!(url_view_counter: {})
+      session[:url_view_counter] = Hash.new(0)
+
       if user.role == 'admin'
         redirect_to admin_reports_url
       else

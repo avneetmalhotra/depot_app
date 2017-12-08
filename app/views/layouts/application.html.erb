@@ -60,7 +60,7 @@
 
     <footer>
       <% if current_user %>
-        <p>Hit Counter:<%= session[:url_view_counter["#{request.url}"]] %> </p>
+        <p>Hit Counter:<%= session[:url_view_counter][request.path] %> </p>
       <% end %>
       <p>Your IP address: <%= request.remote_ip %></p>
     </footer>

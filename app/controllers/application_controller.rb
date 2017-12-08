@@ -8,7 +8,7 @@ class ApplicationController < ActionController::Base
 
   around_action :add_responded_in_header_to_response_headers
   before_action :check_for_inactivity
-  before_action :view_counter
+  before_action :increment_view_counter
 
   protected
 
@@ -61,10 +61,10 @@ class ApplicationController < ActionController::Base
       end
     end
 
-    def view_counter
+    def increment_view_counter
       if current_user
-        session[:url_view_counter["#{request.url}"]] ||= 0
-        session[:url_view_counter["#{request.url}"]] += 1
+        session[:url_view_counter][request.path] ||= 0
+        session[:url_view_counter][request.path] += 1 
       end
     end
 

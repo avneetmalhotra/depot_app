@@ -75,7 +75,7 @@ class UsersController < ApplicationController
 
   def line_items
     @no_of_pages = (current_user.line_items.size.to_f / USER_NUMBER_OF_LINE_ITEMS_PER_PAGE).ceil
-    @line_items = current_user.includes(:line_items).line_items.limit(USER_NUMBER_OF_LINE_ITEMS_PER_PAGE).offset(USER_NUMBER_OF_LINE_ITEMS_PER_PAGE * params[:page].to_i)
+    @line_items = current_user.line_items.includes(:product).limit(USER_NUMBER_OF_LINE_ITEMS_PER_PAGE).offset(USER_NUMBER_OF_LINE_ITEMS_PER_PAGE * params[:page].to_i)
     render layout: 'myorders'
   end
 
