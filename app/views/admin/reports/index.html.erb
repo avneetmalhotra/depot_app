@@ -1,0 +1,36 @@
+<h1>hello admin to admin/reports</h1>
+
+<%= form_tag(admin_reports_path, method: 'get') do %>
+  <%= label_tag 'From Date:' %>
+  <%= select_date 5.days.ago, prefix: :from_date %>
+  <%= label_tag 'To Date:' %>
+  <%= select_date Date.today, prefix: :to_date %>
+  <%= submit_tag 'Filter' %>
+<% end %>
+
+
+<% @orders.each do |order| %>
+  <div>
+    <table>
+      <caption><%= order.name %></caption>
+      <tbody>
+        <tr>
+          <td>Address:</td>
+          <td><%= order.address %></td>
+        <tr/>
+        <tr>
+          <td>E-mail:</td>
+          <td><%= order.email %></td>
+        </tr>
+        <tr>
+          <td>Pay Type:</td>
+          <td><%= order.pay_type %></td>
+        </tr>
+        <tr>
+          <td>Created at:</td>
+          <td><%= order.created_at %></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+<% end %>

@@ -1,0 +1,25 @@
+<table>
+  <thead>
+    <tr>
+      <th>Category Name</th>
+      <th>Parent Category</th>
+      <th>No of Products</th>
+    </tr>
+  </thead>
+
+  <% @categories.each do |category| %>
+    <tbody>
+      <tr>
+        <td><%= category.name %></td>
+        <td>
+          <% if category.root_category %>
+            <%= category.root_category.name %>
+          <% else %>
+            No Root Category
+          <% end %>
+        </td>
+        <td><%= category.products_count %></td>
+      </tr>
+  </tbody>
+  <% end %>
+</table>

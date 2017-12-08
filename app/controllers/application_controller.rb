@@ -6,6 +6,9 @@ class ApplicationController < ActionController::Base
   helper_method :current_user
     # ...
 
+  around_action :add_responded_in_header_to_response_headers
+  before_action :check_for_inactivity
+
   protected
 
     def current_user
@@ -33,6 +36,28 @@ class ApplicationController < ActionController::Base
           flash.now[:notice] = 
             "#{params[:locale]} translation not available"
           logger.error flash.now[:notice]
+        end
+      end
+    end
+
+  private
+
+    def add_responded_in_header_to_response_headers
+      start = Time.now
+      yield
+      duration = start - Time.now
+      response.headers['x-responded-in'] = duration
+    end
+
+    def check_for_inactivity
+      if current_user
+        if Time.now - session[:last_activity_time].to_time > 100.minutes
+          session[:user_id] = nil
+          session[:last_activity_time] = nil
+          # session.clear
+          redirect_to store_index_url, notice: "Logged out"
+        else
+          session[:last_activity_time] = Time.now
         end
       end
     end

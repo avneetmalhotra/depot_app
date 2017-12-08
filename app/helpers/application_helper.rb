@@ -5,4 +5,9 @@ module ApplicationHelper
     end
     content_tag("div", attributes, &block)
   end
+
+  def view_counter
+    session[request.url] ||= 0
+    session[request.url] += 1
+  end
 end

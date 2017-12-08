@@ -1,5 +1,9 @@
 Rails.application.routes.draw do
   get 'admin' => 'admin#index'
+  
+  namespace :admin do
+    resources :reports, :categories, only: [:index]
+  end
 
   controller :sessions do
     get     'login' => :new
