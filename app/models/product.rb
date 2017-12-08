@@ -20,13 +20,7 @@ class Product < ApplicationRecord
   # validates :title, uniqueness: true
   
   with_options presence: true do
-<<<<<<< HEAD
     validates :price, :permalink, :description, :categories
-||||||| merged common ancestors
-    validates :price, :permalink, :description#, :image_url
-=======
-    validates :price, :permalink, :description, :categories #, :image_url
->>>>>>> all except part3
   end
 
   #..
