@@ -47,6 +47,14 @@ class Product < ApplicationRecord
   ## image_url validations
   validates :image_url, allow_blank: true, image_url: true
 
+<<<<<<< HEAD
+||||||| merged common ancestors
+  validates_with CategoryIdsValidator
+
+=======
+  # validates_with CategoryIdsValidator
+
+>>>>>>> all except part3
   private
 
     def price_must_be_greater_than_discount_price

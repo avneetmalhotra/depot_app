@@ -10,7 +10,7 @@
   <% @categories.each do |category| %>
     <tbody>
       <tr>
-        <td><%= category.name %></td>
+        <td><%=link_to category.name, category_products_url(category) %></td>
         <td>
           <% if category.root_category %>
             <%= category.root_category.name %>
