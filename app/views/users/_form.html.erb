@@ -21,8 +21,11 @@
 
   <div class="field">
     Address:
-    <br> 
     <%= form.fields_for :address do |address_form| %>
+      <div class="field">
+        <%= address_form.check_box :_destroy %>
+        <%= address_form.label :_destroy %>
+      </div>
       <%= render 'address_form', f: address_form %>
     <% end %>
   </div>
