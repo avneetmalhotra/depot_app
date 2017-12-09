@@ -9,6 +9,24 @@ class OrderMailer < ApplicationMailer
   def received(order)
     @order = order
 
+    @order.line_items.each do |line_item|
+      if line_item.product.images.present?
+        
+        no_of_images = line_item.product.images.size
+        line_item.product.images.reverse.each do |image|
+          if no_of_images > 1
+            attachments[image.name] = File.read('public/' + image.file_path)
+            no_of_images -= 1
+          else
+            attachments.inline[image.name] = File.read('public/' + image.file_path)
+          end
+        end
+      else
+        attachments.inline['no_image_available.gif'] = File.read("#{Rails.root}/app/assets/images/no_image_available.gif")
+      end
+
+    end
+
     mail to: order.email, subject: 'Pragmatic Store Order Confirmation'
   end
 
