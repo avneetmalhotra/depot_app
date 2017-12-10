@@ -47,3 +47,21 @@ en:
       submit:       "Place Order"
 
   thanks:          "Thank you for your order"
+
+  order_mailer:
+    received:
+      greeting:             'Hi'
+      intro:
+        line1:              'Thank you for your recent order from The Pragmatic Store'
+        line2:              {
+                                one: 'You ordered the following item',
+                                other: 'You ordered the following items'
+                            }
+      table:
+        product:            'Product'
+        image:              'Image'
+        individual_price:   'Individual Price'
+        quantity:           'Quantity'
+        total_price:        'Total Price'
+        total_order_cost:   'Total Order Cost'
+

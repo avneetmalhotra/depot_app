@@ -16,7 +16,7 @@ class SessionsController < ApplicationController
       if user.role == 'admin'
         redirect_to admin_reports_url
       else
-        redirect_to users_orders_url
+        redirect_to my_orders_url
       end
     else
       redirect_to login_url, alert: "Invalid user/password combination"

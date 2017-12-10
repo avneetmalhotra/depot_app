@@ -29,6 +29,11 @@
       <%= render 'address_form', f: address_form %>
     <% end %>
   </div>
+
+  <div class="field">
+    <%= form.label :language_preference %>
+    <%= form.select(:language_preference, User.language_preferences.keys) %>
+  </div>
  
   <div class="field">
     <%= form.label :email %>

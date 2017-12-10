@@ -1,0 +1,27 @@
+hi:
+
+  number:
+    currency:
+      format:
+        unit:      "$US"
+        precision: 2
+        separator: ","
+        delimiter: "."
+        format:    "%n&nbsp;%u"
+
+  order_mailer:
+    received:
+      greeting:             'नमस्ते'
+      intro:
+        line1:              'परैगमैटिक स्टोर से आपके हाल के औडर के लिए धन्यवाद'
+        line2:              {
+                              one: 'आपने निम्नलिखित वस्तु का औडर दिया है',
+                              other: 'आपने निम्नलिखित वस्तुओं का औडर दिया है'
+                            }
+      table:
+        product:            'वस्तु'
+        image:              'छवि'
+        individual_price:   'एक की कीमत'
+        quantity:           'मात्रा'
+        total_price:        'कुल कीमत'
+        total_order_cost:   'कुल औडर की कीमत'
