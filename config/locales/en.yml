@@ -48,8 +48,9 @@ en:
 
   thanks:          "Thank you for your order"
 
-  order_mailer:
-    received:
+  order_mailer:   
+    received:               
+      subject:                'Pragmatic Store Order Confirmation'
       greeting:             'Hi'
       intro:
         line1:              'Thank you for your recent order from The Pragmatic Store'

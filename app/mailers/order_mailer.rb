@@ -32,7 +32,9 @@ class OrderMailer < ApplicationMailer
 
     end
 
-    mail to: order.email, subject: 'Pragmatic Store Order Confirmation'
+    I18n.with_locale(@mail_language) do
+      mail to: order.email
+    end
   end
 
   # Subject can be set in your I18n file at config/locales/en.yml

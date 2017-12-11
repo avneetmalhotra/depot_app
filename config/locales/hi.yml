@@ -11,6 +11,7 @@ hi:
 
   order_mailer:
     received:
+      subject:                'परैगमैटिक स्टोर औडर की पुष्टि'
       greeting:             'नमस्ते'
       intro:
         line1:              'परैगमैटिक स्टोर से आपके हाल के औडर के लिए धन्यवाद'
