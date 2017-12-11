@@ -1,0 +1,13 @@
+<p>
+  Hi <%= @user.name %><br>
+  All your orders uptill now are as follows: <br>
+</p>
+
+<% @user.orders.each.with_index(1) do |order, index| %>
+  <h1>Order <%= index%> :</h1><br>
+  <% order.line_items.each do |line_item| %>
+    <p>
+      <%= line_item.inspect %><br>
+    </p>
+  <% end %>
+<% end %>

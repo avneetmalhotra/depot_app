@@ -4,39 +4,4 @@
   <%= t '.intro.line2', count: @order.quantity %>:<br>
 </p>
 
-<table>
-  <thead>
-    <tr>
-      <th><%= t '.table.product' %></th>
-      <th><%= t '.table.image' %></th>
-      <th><%= t '.table.individual_price' %></th>
-      <th><%= t '.table.quantity' %></th>
-      <th><%= t '.table.total_price' %></th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <% @order.line_items.each do |line_item|%>
-      <tr>
-        <td><%= line_item.product.title %></td>
-        <td>
-          <% if line_item.product.images.exists? %>
-            <%= image_tag attachments[line_item.product.images.first.name].url, size: '150x150' %>
-          <% else %>
-            <%= image_tag attachments['no_image_available.gif'].url, size: '150x150'  %>
-          <% end %>
-        </td>
-        <td><%= number_to_currency(line_item.product.price) %></td>
-        <td><%= line_item.quantity %></td>
-        <td><%= number_to_currency(line_item.total_price) %></td>
-      </tr>
-    <% end %>
-  </tbody>
-
-  <tfoot>
-    <tr>
-      <td colspan="4"><%= t '.table.total_order_cost' %></td>
-      <td><%= number_to_currency(@order.total_price) %></td>
-    </tr>
-  </tfoot>
-</table>
+<%= render 'orders/order_details', order: @order %>

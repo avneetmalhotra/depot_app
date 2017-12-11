@@ -10,4 +10,10 @@ class UserMailer < ApplicationMailer
     @user = User.find_by(id: user_id)
     mail to: @user.email, subject: 'Welcome to Pragmmatic Store' if @user.present?
   end
+
+  def all_orders(user)
+    @user = user
+
+    mail to: @user.email, subject: 'Your All Orders'
+  end
 end
