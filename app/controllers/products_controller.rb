@@ -39,7 +39,7 @@ class ProductsController < ApplicationController
 
     respond_to do |format|
       if @product.save
-        format.html { redirect_to @product, notice: 'Product was successfully created.' }
+        format.html { redirect_to @product, notice: t('.create') }
         format.json { render :show, status: :created, location: @product }
       else
         associate_images(3)
@@ -54,7 +54,7 @@ class ProductsController < ApplicationController
   def update
     respond_to do |format|
       if @product.update(product_params)
-        format.html { redirect_to @product, notice: 'Product was successfully updated.' }
+        format.html { redirect_to @product, notice: t('.update') }
         format.json { render :show, status: :ok, location: @product }
 
         @products = Product.all
@@ -71,7 +71,7 @@ class ProductsController < ApplicationController
   def destroy
     respond_to do |format|
       if @product.destroy
-        format.html { redirect_to products_url, notice: 'Product was successfully destroyed.' }
+        format.html { redirect_to products_url, notice: t('.destroy') }
         format.json { head :no_content }
       else
         format.html { redirect_to products_url, notice: @product.errors.full_messages.join }

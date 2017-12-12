@@ -20,13 +20,13 @@ class SessionsController < ApplicationController
         redirect_to my_orders_url
       end
     else
-      redirect_to login_url, alert: "Invalid user/password combination"
+      redirect_to login_url, alert: t('.invalid_login_flash')
     end
   end
 
   def destroy
     session.clear
     I18n.locale = I18n.default_locale
-    redirect_to store_index_url, notice: "Logged out"
+    redirect_to store_index_url, notice: t('.logged_out_flash')
   end
 end

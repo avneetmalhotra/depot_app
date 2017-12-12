@@ -19,7 +19,7 @@ class ApplicationController < ActionController::Base
     def authorize
       if request.format == Mime[:html]
         unless User.find_by(id: session[:user_id])
-          redirect_to login_url, notice: "Please log in"
+          redirect_to login_url, notice: t('application.log_in_flash')
         end
       else
         authenticate_or_request_with_http_basic do |username, password|
@@ -34,14 +34,14 @@ class ApplicationController < ActionController::Base
     end
 
     def set_i18n_locale_from_params
-      I18n.locale = session[:locale]
+      # I18n.locale = session[:locale]
       if params[:locale]
         if I18n.available_locales.map(&:to_s).include?(params[:locale])
           session[:locale] = 
           I18n.locale = params[:locale]
         else
-          flash.now[:notice] = 
-            "#{params[:locale]} translation not available"
+          flash.now[:notice] = t('application.translation_invalid_flash', invalid_locale: params[:locale])
+            
           logger.error flash.now[:notice]
         end
       end
