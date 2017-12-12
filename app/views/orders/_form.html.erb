@@ -1,16 +1,6 @@
 <%= form_with(model: order, local: true) do |f| %>
   <% if order.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= raw t('errors.template.header', count: @order.errors.count, model: t('errors.template.body') ) %>
-      </h2>
-      <p><%= t('errors.template.body') %></p>
-
-      <ul>
-      <% order.errors.full_messages.each do |message| %>
-        <li><%=raw message %></li>
-      <% end %>
-      </ul>
-    </div>
+    <%= render 'shared/form_errors', model_object: order %>
   <% end %>
 
   <div class="field">

@@ -15,6 +15,11 @@ en:
       header:       
         one:       "1 error prohibited this %{model} from being saved"
         other:     "%{count} errors prohibited this %{model} from being saved"
+    custom_validations:
+      messages:
+        discount_price_more_than_price: 'must be greater than discount price'
+        image_url: 'must be a URL for GIF, JPG or PNG image.'
+        one_level_nesting: 'Only one level nesting allowed'
 
   layouts:
     application:
@@ -47,22 +52,3 @@ en:
       submit:       "Place Order"
 
   thanks:          "Thank you for your order"
-
-  order_mailer:   
-    received:               
-      subject:                'Pragmatic Store Order Confirmation'
-      greeting:             'Hi'
-      intro:
-        line1:              'Thank you for your recent order from The Pragmatic Store'
-        line2:              {
-                                one: 'You ordered the following item',
-                                other: 'You ordered the following items'
-                            }
-      table:
-        product:            'Product'
-        image:              'Image'
-        individual_price:   'Individual Price'
-        quantity:           'Quantity'
-        total_price:        'Total Price'
-        total_order_cost:   'Total Order Cost'
-

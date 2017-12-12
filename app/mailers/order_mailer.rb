@@ -9,7 +9,7 @@ class OrderMailer < ApplicationMailer
   def received(order)
     @order = order
 
-    @mail_language = MAIL_LANGUAGES[@order.user.language_preference.to_sym]
+    @mail_language = USER_LANGUAGES[@order.user.language_preference.to_sym]
     @order.line_items.each do |line_item|
 
       if line_item.product.images.present?

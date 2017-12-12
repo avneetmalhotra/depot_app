@@ -1,28 +1,60 @@
 hi:
 
-  number:
-    currency:
-      format:
-        unit:      "$US"
-        precision: 2
-        separator: ","
-        delimiter: "."
-        format:    "%n&nbsp;%u"
+  errors:
+    template:
+      header:
+        one: '1 त्रुटि ने इस %{model} को सहेजने से रोक दिया'
+        other: '%{count} त्रुटियों को सहेजा जा रहा से इस %{model} को निषिद्ध'
+    custom_validations:
+      messages:
+        discount_price_more_than_price: 'डिस्काउंट कीमत से अधिक होना चाहिए'
+        image_url: 'GIF, JPG या PNG छवि के लिए एक URL होनी चाहिए'
+        one_level_nesting: 'केवल एक स्तर के घोंसले के शिकार की अनुमति'
 
-  order_mailer:
-    received:
-      subject:                'परैगमैटिक स्टोर औडर की पुष्टि'
-      greeting:             'नमस्ते'
-      intro:
-        line1:              'परैगमैटिक स्टोर से आपके हाल के औडर के लिए धन्यवाद'
-        line2:              {
-                              one: 'आपने निम्नलिखित वस्तु का औडर दिया है',
-                              other: 'आपने निम्नलिखित वस्तुओं का औडर दिया है'
-                            }
-      table:
-        product:            'वस्तु'
-        image:              'छवि'
-        individual_price:   'एक की कीमत'
-        quantity:           'मात्रा'
-        total_price:        'कुल कीमत'
-        total_order_cost:   'कुल औडर की कीमत'
+  activerecord:
+    errors:
+      messages:
+        blank: 'रिक्त नहीं हो सकता'
+        taken: 'पहले से ही लिया गया है'
+        greater_than_or_equal_to: '%{count} या अधिक के बराबर होना चाहिए'
+        inclusion: 'सूची में शामिल नहीं है'
+        invalid: 'अमान्य है'
+        not_an_integer: 'एक पूर्णांक नहीं है'
+      models:
+        product:
+          attributes:
+            description:
+              invalid: 'में केवल 5 से 10 शब्द हो सकते हैं'
+        category:
+          attributes:
+            name:
+              taken: 'का उपयोग नहीं किया जा सकता। यह पहले से ही एक उप-श्रेणी का नाम है'
+    models:
+      product: 'उत्पाद'
+      order:   'औडर'
+      user:    'उपयोगकर्ता'
+      address: 'पता'
+      category: 'वर्ग'
+    attributes:
+      product:
+        price:          'मूल्य'
+        permalink:      'स्थायी लिंक'
+        description:    'विवरण'
+        categories:     'श्रेणियाँ'
+      order:
+        name:           'नाम'
+        address:        'पता'
+        email:          'ईमेल'
+        pay_type:       'भुगतान प्रकार'
+      user:
+        name:           'नाम'
+        email:          'ईमेल'
+        language_preference: 'भाषा वरीयता'
+        password:       'पारण शब्द'
+      address:
+        city:           'शहर'
+        state:          'राज्य'
+        country:        'देश'
+        pincode:        'पिन कोड'
+      category:
+        name:           'नाम'

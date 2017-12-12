@@ -39,7 +39,7 @@ class Category < ApplicationRecord
     private
 
     def one_level_nesting
-      errors[:base] << 'Only one level nesting allowed' unless root_category.is_root_category?
+      errors[:base] << I18n.t('errors.custom_validations.messages.one_level_nesting') unless root_category.is_root_category?
     end
 
 end

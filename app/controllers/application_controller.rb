@@ -29,9 +29,15 @@ class ApplicationController < ActionController::Base
       end
     end
 
+    def default_url_options
+      { locale: I18n.locale }
+    end
+
     def set_i18n_locale_from_params
+      I18n.locale = session[:locale]
       if params[:locale]
         if I18n.available_locales.map(&:to_s).include?(params[:locale])
+          session[:locale] = 
           I18n.locale = params[:locale]
         else
           flash.now[:notice] = 
