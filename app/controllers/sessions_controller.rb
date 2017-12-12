@@ -12,19 +12,21 @@ class SessionsController < ApplicationController
       session[:user_id] = user.id
       session[:last_activity_time] = Time.current
       session[:url_view_counter] = Hash.new(0)
+      session[:locale] = I18n.locale = USER_LANGUAGES[user.language_preference.to_sym]
 
       if user.role == 'admin'
         redirect_to admin_reports_url
       else
-        redirect_to users_orders_url
+        redirect_to my_orders_url
       end
     else
-      redirect_to login_url, alert: "Invalid user/password combination"
+      redirect_to login_url, alert: t('.invalid_login_flash')
     end
   end
 
   def destroy
     session.clear
-    redirect_to store_index_url, notice: "Logged out"
+    I18n.locale = I18n.default_locale
+    redirect_to store_index_url, notice: t('.logged_out_flash')
   end
 end

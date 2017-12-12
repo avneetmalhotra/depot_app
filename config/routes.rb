@@ -13,8 +13,8 @@ Rails.application.routes.draw do
       delete  'logout' => :destroy
     end
 
-    match 'my-orders', to: 'users#orders', via: [:get]
     match 'my-items', to: 'users#line_items', via: [:get]
+    match 'my-orders', to: 'users#orders', via: [:get]
 
     resources :users
 

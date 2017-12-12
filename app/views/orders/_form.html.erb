@@ -1,14 +1,6 @@
 <%= form_with(model: order, local: true) do |f| %>
   <% if order.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(order.errors.count, "error") %> prohibited this order from being saved:</h2>
-
-      <ul>
-      <% order.errors.full_messages.each do |message| %>
-        <li><%=raw message %></li>
-      <% end %>
-      </ul>
-    </div>
+    <%= render 'shared/form_errors', model_object: order %>
   <% end %>
 
   <div class="field">

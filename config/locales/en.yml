@@ -15,6 +15,11 @@ en:
       header:       
         one:       "1 error prohibited this %{model} from being saved"
         other:     "%{count} errors prohibited this %{model} from being saved"
+    custom_validations:
+      messages:
+        discount_price_more_than_price: 'must be greater than discount price'
+        image_url: 'must be a URL for GIF, JPG or PNG image.'
+        one_level_nesting: 'Only one level nesting allowed'
 
   layouts:
     application:
@@ -29,6 +34,11 @@ en:
       title:       "Your Cart"
       empty:       "Empty cart"
       checkout:    "Checkout"
+    create:
+      create_flash: 'Cart was successfully created.'
+    update:
+      update_flash: 'Cart was successfully updated.'
+    invalid_cart_flash: 'Invalid Cart'
 
   store:
     index:
@@ -45,5 +55,55 @@ en:
       pay_type:     "Pay with"
       pay_prompt_html: "Select a payment method"
       submit:       "Place Order"
+    update:
+      update_flash: 'Order was successfully updated.'
+    destroy:
+      destroy_flash: 'Order was successfully destroyed.'
+    view:
+      empty_cart_flash: 'Your cart is empty.'
+
+  categories:
+    create:
+      create_flash: 'Category was successfully created.'
+    update:
+      update_flash: 'Cateogry was successfully updated.'
+    destroy:
+      destroy_flash: 'Category was successfully destroyed.'
+
+  line_items:
+    update:
+      update_flash: 'Line Item was successfully updated.'
+    destroy:
+      destroy_flash: 'Line Item was successfully destroyed.'
+
+  products:
+    create:
+      create_flash: 'Product was successfully created.'
+    update:
+      update_flash: 'Product was successfully updated.'
+    destroy:
+      destroy_flash: 'Product was successfully destroyed.'
+
+  sessions:
+    create:
+      invalid_login_flash: 'Invalid user/password combination'
+    destroy:
+      logged_out_flash: 'Logged out'
+
+  users:
+    create:
+      create_flash: 'User %{user_name} was successfully created.'
+    update:
+      update_flash: 'User %{user_name} was successfully updated.'
+    destroy:
+      destroy_flash: 'User %{user_name} was successfully destroyed.'
+
+  admin:
+    base:
+      restricted_access_flash: "You don't have privilege to access this section"
+
+  application:
+    log_in_flash: "Please log in"
+    translation_invalid_flash: "%{invalid_locale} translation not available"
 
   thanks:          "Thank you for your order"

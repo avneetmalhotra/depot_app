@@ -29,7 +29,7 @@ class UsersController < ApplicationController
 
     respond_to do |format|
       if @user.save
-        format.html { redirect_to users_url, notice: "User #{@user.name} was successfully created." }
+        format.html { redirect_to users_url, notice: t('.create_flash', user_name: @user.name) }
         format.json { render :show, status: :created, location: @user }
       else
         @user.build_address
@@ -44,7 +44,7 @@ class UsersController < ApplicationController
   def update
     respond_to do |format|
       if @user.update(user_params)
-        format.html { redirect_to users_url, notice: "User #{@user.name} was successfully updated." }
+        format.html { redirect_to users_url, notice: t('.update_flash', user_name: @user.name) }
         format.json { render :show, status: :ok, location: @user }
       else
         format.html { render :edit }
@@ -58,7 +58,7 @@ class UsersController < ApplicationController
   def destroy
     if @user.destroy
       respond_to do |format|
-        format.html { redirect_to users_url, notice: 'User was successfully destroyed.' }
+        format.html { redirect_to users_url, notice: t('.destroy_flash', user_name: @user.name) }
         format.json { head :no_content }
       end
     end
@@ -87,6 +87,6 @@ class UsersController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def user_params
-      params.require(:user).permit(:name, :email, :password, :password_confirmation, :about_me, address_attributes: [:id, :city, :state, :country, :pincode, :_destroy])
+      params.require(:user).permit(:name, :email, :language_preference, :password, :password_confirmation, :about_me, address_attributes: [:id, :city, :state, :country, :pincode, :_destroy])
     end
 end

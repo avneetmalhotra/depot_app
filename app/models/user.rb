@@ -4,11 +4,15 @@ class User < ApplicationRecord
   has_one :address, dependent: :destroy
   accepts_nested_attributes_for :address, reject_if: :all_blank, allow_destroy: true
   
+  enum language_preference: [ :English, :Hindi ]
+
   validates :name, presence: true, uniqueness: { case_sensitive: false }
 
   validates :email, format:{
     with: VALID_EMAIL_REGEX
   }
+
+  validates :language_preference, inclusion: language_preferences.keys
 
   has_secure_password
 

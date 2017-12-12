@@ -18,8 +18,8 @@ class Order < ApplicationRecord
     end
   end
 
-  def add_logged_in_user_id(user_id)
-    self.user_id = user_id unless user_id.nil?
+  def add_logged_in_user_id(user)
+    self.user_id = user.id unless user.nil?
   end
 
   def total_price
@@ -28,5 +28,11 @@ class Order < ApplicationRecord
       price += line_item.total_price
     end
     price
+  end
+
+  def quantity
+    count = 0
+    line_items.each { |line_item| count += line_item.quantity }
+    count
   end
 end

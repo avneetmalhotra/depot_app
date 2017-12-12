@@ -1,9 +1,7 @@
-<h1>Order#recieved</h1>
-
 <p>
-  Dear <%= @order.name %><br>
-  Thank you for your recent order from The Pragmatic Store.<br>
-  You ordered the following items:<br>
-  <%= render @order.line_items -%><br>
-  We'll send you a separate e-mail when your order ships.
+  <%= t '.greeting' %> <%= @order.name %><br>
+  <%= t '.intro.line1' %>.<br>
+  <%= t '.intro.line2', count: @order.quantity %>:<br>
 </p>
+
+<%= render 'orders/order_details', order: @order %>
