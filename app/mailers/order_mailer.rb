@@ -47,5 +47,5 @@ class OrderMailer < ApplicationMailer
 
     mail to: order.email, subject: 'Pragmatic Store Order Shipped'
   end
-
+  
 end
