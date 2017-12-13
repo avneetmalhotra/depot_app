@@ -2,6 +2,7 @@ class User < ApplicationRecord
   has_many :orders, dependent: :destroy
   has_many :line_items, through: :orders
   has_one :address, dependent: :destroy
+  has_many :ratings, dependent: :destroy
   accepts_nested_attributes_for :address, reject_if: :all_blank, allow_destroy: true
   
   enum language_preference: [ :English, :Hindi ]

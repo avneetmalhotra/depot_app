@@ -31,5 +31,16 @@
   <%= @product.price %>
 </p>
 
+<p>
+  <strong> Average Rating:</strong>
+  <span class="average-rating">
+    <%= render 'ratings/average_rating', product: @product %>
+  </span>
+</p>
+
+<fieldset>
+  <%= render 'ratings/form', rating: @rating %>
+</fieldset>
+
 <%= link_to 'Edit', edit_product_path(@product) %> |
 <%= link_to 'Back', products_path %>

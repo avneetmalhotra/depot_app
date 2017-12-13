@@ -6,6 +6,7 @@ class Product < ApplicationRecord
   has_many :categorizations, dependent: :destroy
   has_many :categories, through: :categorizations
   has_many :images, dependent: :destroy
+  has_many :ratings, dependent: :destroy
   accepts_nested_attributes_for :images
 
   ## SCOPES

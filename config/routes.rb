@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
 
-  constraints -> (req) { req.env["HTTP_USER_AGENT"] !~ /Firefox/ } do
+  # constraints -> (req) { req.env["HTTP_USER_AGENT"] !~ /Firefox/ } do
     get 'admin' => 'admin#index'
     
     namespace :admin do
@@ -17,7 +17,7 @@ Rails.application.routes.draw do
     match 'my-orders', to: 'users#orders', via: [:get]
 
     resources :users
-
+    resources :ratings, only: [:create, :update]
     resources :products, path: 'books' do
       get 'who_bought', on: :member
     end
@@ -34,7 +34,7 @@ Rails.application.routes.draw do
         resources :products, path: 'books', only: [:index]
       end
     end
-  end
+  # end
     
   scope '(:locale)' do
     root 'store#index', as: 'store_index'

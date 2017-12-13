@@ -13,6 +13,14 @@
         <%= image_tag(product.image_url) %>
         
         <h3><%= product.title %></h3>
+        <h4>Rating:
+        <% if product.ratings.exists? %>
+          <%= product.ratings.average(:value) %>
+        <% else %>
+          Not Rated Yet
+        <% end %>
+        </h4>
+
         <%= sanitize(product.description) %>
         
         <div class="price_line">
