@@ -1,7 +1,7 @@
 class CreateRatings < ActiveRecord::Migration[5.1]
   def change
     create_table :ratings do |t|
-      t.decimal :rating, precision: 2, scale: 1
+      t.decimal :value, precision: 2, scale: 1
       t.references :user
       t.references :product
 

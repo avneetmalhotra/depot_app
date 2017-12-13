@@ -8,7 +8,7 @@ class ProductsController < ApplicationController
       category = Category.find_by(id: params[:category_id].to_i)
         @products = category.products
     else
-      @products = Product.includes(:images)
+      @products = Product.includes(:images, :ratings)
     end
     
     respond_to do |format|
@@ -20,6 +20,7 @@ class ProductsController < ApplicationController
   # GET /products/1
   # GET /products/1.json
   def show
+    get_rating_object
   end
 
   # GET /products/new
@@ -39,7 +40,7 @@ class ProductsController < ApplicationController
 
     respond_to do |format|
       if @product.save
-        format.html { redirect_to @product, notice: t('.create') }
+        format.html { redirect_to @product, notice: t('.create_flash') }
         format.json { render :show, status: :created, location: @product }
       else
         associate_images(3)
@@ -54,7 +55,7 @@ class ProductsController < ApplicationController
   def update
     respond_to do |format|
       if @product.update(product_params)
-        format.html { redirect_to @product, notice: t('.update') }
+        format.html { redirect_to @product, notice: t('.update_flash') }
         format.json { render :show, status: :ok, location: @product }
 
         @products = Product.all
@@ -71,7 +72,7 @@ class ProductsController < ApplicationController
   def destroy
     respond_to do |format|
       if @product.destroy
-        format.html { redirect_to products_url, notice: t('.destroy') }
+        format.html { redirect_to products_url, notice: t('.destroy_flash') }
         format.json { head :no_content }
       else
         format.html { redirect_to products_url, notice: @product.errors.full_messages.join }
@@ -102,6 +103,20 @@ class ProductsController < ApplicationController
 
     def associate_images(no_of_images)
      no_of_images.times { @product.images.build }
+    end
+
+    def get_rating_object
+      if @product.ratings.exists?
+        @rating = Rating.new
+        @product.ratings.each do |rating|
+          if rating.user == current_user
+            @rating = rating
+            break
+          end
+        end
+      else
+        @rating = Rating.new
+      end
     end
 
 end

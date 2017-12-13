@@ -1,0 +1,5 @@
+<% if product.ratings.exists? %>
+  <%= product.ratings.average(:value) %>
+<% else %>
+  Not Rated Yet
+<% end %>
